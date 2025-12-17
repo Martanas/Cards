@@ -5,15 +5,12 @@ data class FrenchPlayingCard(
     override val suit: FrenchSuit
 ) : PlayingCard {
     companion object {
-        fun createStandardDeck(): List<PlayingCard> {
-            val deck = mutableListOf<FrenchPlayingCard>()
-            FrenchRank.entries.forEach { rank ->
-                FrenchSuit.entries.forEach { suit ->
-                    deck.add(FrenchPlayingCard(rank, suit))
+        fun createStandardDeck(): List<PlayingCard> =
+            FrenchRank.entries.map { rank ->
+                FrenchSuit.entries.map { suit ->
+                    FrenchPlayingCard(rank, suit)
                 }
-            }
-            return deck.toList()
-        }
+            }.flatten()
     }
 }
 
