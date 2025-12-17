@@ -1,10 +1,10 @@
 package com.martanhub.card
 
-interface PlayingCard {
+interface PlayingCard : Comparable<PlayingCard> {
     val rank: Rank
     val suit: Suit
 }
 
 interface Rank : Comparable<Rank>
 
-interface Suit
+interface Suit : Comparable<Suit>
