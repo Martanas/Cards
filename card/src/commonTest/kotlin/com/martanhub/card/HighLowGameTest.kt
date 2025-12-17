@@ -2,6 +2,7 @@ package com.martanhub.card
 
 import com.martanhub.card.HighLowGame.GameEndedException
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -61,6 +62,24 @@ class HighLowGameTest {
 
         game.guess(true)
         assertFailsWith(GameEndedException::class) { game.guess(true) }
+    }
+
+    @Test
+    fun `incorrect guess does not affect score`() {
+        val game = HighLowGame(createFakeSameSuitOrderedDeck())
+
+        assertEquals(0, game.score())
+        game.guess(false)
+        assertEquals(0, game.score())
+    }
+
+    @Test
+    fun `correct guess affects score`() {
+        val game = HighLowGame(createFakeSameSuitOrderedDeck())
+
+        assertEquals(0, game.score())
+        game.guess(true)
+        assertEquals(10, game.score())
     }
 
     private fun createFakeSameSuitOrderedDeck() =
