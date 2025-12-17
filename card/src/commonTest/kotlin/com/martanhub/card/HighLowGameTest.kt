@@ -8,21 +8,21 @@ import kotlin.test.assertTrue
 
 class HighLowGameTest {
     @Test
-    fun correctGuessForNextCardReturnsTrue() {
+    fun `correct guess for next card returns true`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
         assertTrue(game.guess(true))
     }
 
     @Test
-    fun wrongGuessForNextCardReturnsFalse() {
+    fun `wrong guess for next card returns false`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
         assertFalse(game.guess(false))
     }
 
     @Test
-    fun canPerformTwoCorrectGuessesInARow() {
+    fun `can perform two correct guesses in a row`() {
         val game = HighLowGame(createFakeSameSuitUnOrderedDeck())
 
         assertTrue(game.guess(true))
@@ -30,7 +30,7 @@ class HighLowGameTest {
     }
 
     @Test
-    fun guessForHigherCardOnASameCardReturnsFalse() {
+    fun `guess for higher card on a same card returns false`() {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
@@ -41,7 +41,7 @@ class HighLowGameTest {
     }
 
     @Test
-    fun guessForLowerCardOnASameCardReturnsFalse() {
+    fun `guess for lower card on a same card returns false`() {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
@@ -52,7 +52,7 @@ class HighLowGameTest {
     }
 
     @Test
-    fun guessAfterRunningOutOfCardsThrowsException() {
+    fun `guess after running out of cards throws exception`() {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
