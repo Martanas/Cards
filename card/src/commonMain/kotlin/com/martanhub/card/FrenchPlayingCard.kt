@@ -15,7 +15,16 @@ data class FrenchPlayingCard(
 }
 
 enum class FrenchRank : Rank {
-    ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
+    ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
+
+    override fun compareTo(other: Rank): Int {
+        require(other is FrenchRank)
+        return when {
+            this.ordinal > other.ordinal -> -1
+            this.ordinal > other.ordinal -> 1
+            else -> 0
+        }
+    }
 }
 
 enum class FrenchSuit : Suit {

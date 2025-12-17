@@ -5,6 +5,6 @@ interface PlayingCard {
     val suit: Suit
 }
 
-interface Rank
+interface Rank : Comparable<Rank>
 
 interface Suit
