@@ -79,7 +79,35 @@ class HighLowGameTest {
 
         assertEquals(0, game.score())
         game.guess(true)
-        assertEquals(10, game.score())
+        assertEquals(1, game.score())
+    }
+
+    @Test
+    fun `correct guesses not in a row affects score regularly`() {
+        val game = HighLowGame(createFakeSameSuitOrderedDeck())
+
+        assertEquals(0, game.score())
+        game.guess(true)
+        assertEquals(1, game.score())
+        game.guess(false)
+        assertEquals(1, game.score())
+        game.guess(true)
+        assertEquals(2, game.score())
+    }
+
+    @Test
+    fun `correct guesses in a row affects score in a geometric progression`() {
+        val game = HighLowGame(createFakeSameSuitOrderedDeck())
+
+        assertEquals(0, game.score())
+        game.guess(true)
+        assertEquals(1, game.score())
+        game.guess(true)
+        assertEquals(3, game.score())
+        game.guess(true)
+        assertEquals(6, game.score())
+        game.guess(true)
+        assertEquals(11, game.score())
     }
 
     private fun createFakeSameSuitOrderedDeck() =

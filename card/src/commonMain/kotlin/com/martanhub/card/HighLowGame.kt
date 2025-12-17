@@ -1,8 +1,11 @@
 package com.martanhub.card
 
+import kotlin.math.pow
+
 class HighLowGame(deck: List<PlayingCard>) {
     private val deck = deck.toMutableList()
     private var score = 0
+    private var correctAnswerStreak = 0
 
     fun score() = score
     fun guess(higher: Boolean): Boolean {
@@ -17,10 +20,21 @@ class HighLowGame(deck: List<PlayingCard>) {
         } else {
             nextCard < currentCard
         }
-        if (guessedCorrectly) {
-            score += 10
-        }
+        updateScore(guessedCorrectly)
         return guessedCorrectly
+    }
+
+    private fun updateScore(guessedCorrectly: Boolean) {
+        val regularScoreIncrement = 1
+        if (guessedCorrectly) {
+            val streakBonus = 2.0.pow(correctAnswerStreak - 1).toInt()
+                .takeIf { correctAnswerStreak > 0 } ?: 0
+            println(streakBonus)
+            score += regularScoreIncrement + streakBonus
+            correctAnswerStreak += 1
+        } else {
+            correctAnswerStreak = 0
+        }
     }
 
 
