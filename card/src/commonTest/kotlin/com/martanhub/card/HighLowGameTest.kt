@@ -12,22 +12,22 @@ class HighLowGameTest {
     fun `correct guess for next card returns true`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
-        assertTrue(game.guess(true))
+        assertTrue(game.guess(true).result)
     }
 
     @Test
     fun `wrong guess for next card returns false`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
-        assertFalse(game.guess(false))
+        assertFalse(game.guess(false).result)
     }
 
     @Test
     fun `can perform two correct guesses in a row`() {
         val game = HighLowGame(createFakeSameSuitUnOrderedDeck())
 
-        assertTrue(game.guess(true))
-        assertTrue(game.guess(false))
+        assertTrue(game.guess(true).result)
+        assertTrue(game.guess(false).result)
     }
 
     @Test
@@ -38,7 +38,7 @@ class HighLowGameTest {
         )
         val game = HighLowGame(deck)
 
-        assertFalse(game.guess(true))
+        assertFalse(game.guess(true).result)
     }
 
     @Test
@@ -49,7 +49,7 @@ class HighLowGameTest {
         )
         val game = HighLowGame(deck)
 
-        assertFalse(game.guess(false))
+        assertFalse(game.guess(false).result)
     }
 
     @Test
@@ -108,6 +108,21 @@ class HighLowGameTest {
         assertEquals(6, game.score())
         game.guess(true)
         assertEquals(11, game.score())
+    }
+
+    @Test
+    fun `result is not ended when there are cards left to play`() {
+        val game = HighLowGame(createFakeSameSuitUnOrderedDeck())
+
+        assertFalse(game.guess(false).hasEnded())
+    }
+
+    @Test
+    fun `result is ended when there are no cards left to play`() {
+        val game = HighLowGame(createFakeSameSuitUnOrderedDeck())
+
+        game.guess(true).result
+        assertTrue(game.guess(false).hasEnded())
     }
 
     private fun createFakeSameSuitOrderedDeck() =

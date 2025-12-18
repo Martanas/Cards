@@ -2,13 +2,13 @@ package com.martanhub.card
 
 import kotlin.math.pow
 
-class HighLowGame(deck: List<PlayingCard>) {
-    private val deck = deck.toMutableList()
+open class HighLowGame(deck: List<PlayingCard>) {
+    protected val deck = deck.toMutableList()
     private var score = 0
-    private var correctAnswerStreak = 0
+    open var correctAnswerStreak = 0
 
     fun score() = score
-    fun guess(higher: Boolean): Boolean {
+    fun guess(higher: Boolean): GameResult {
         if (deck.size < 2) {
             throw GameEndedException()
         }
@@ -21,7 +21,10 @@ class HighLowGame(deck: List<PlayingCard>) {
             nextCard < currentCard
         }
         updateScore(guessedCorrectly)
-        return guessedCorrectly
+        return when {
+            deck.size < 2 -> GameResult.Ended(guessedCorrectly)
+            else -> GameResult.Ongoing(guessedCorrectly)
+        }
     }
 
     private fun updateScore(guessedCorrectly: Boolean) {
@@ -37,6 +40,14 @@ class HighLowGame(deck: List<PlayingCard>) {
         }
     }
 
-
     class GameEndedException : RuntimeException()
+
+    sealed interface GameResult {
+        val result: Boolean
+
+        data class Ongoing(override val result: Boolean) : GameResult
+        data class Ended(override val result: Boolean) : GameResult
+
+        fun hasEnded() = this is Ended
+    }
 }
