@@ -1,8 +1,8 @@
 package com.martanhub.card
 
 import com.martanhub.card.HighLowGame.GameEndedException
+import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -68,46 +68,55 @@ class HighLowGameTest {
     fun `incorrect guess does not affect score`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
-        assertEquals(0, game.score())
+        game.assertState(score = 0, streak = 0)
+
         game.guess(false)
-        assertEquals(0, game.score())
+        game.assertState(score = 0, streak = 0)
     }
 
     @Test
     fun `correct guess affects score`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
-        assertEquals(0, game.score())
+        game.assertState(score = 0, streak = 0)
+
         game.guess(true)
-        assertEquals(1, game.score())
+        game.assertState(score = 1, streak = 1)
     }
 
     @Test
     fun `correct guesses not in a row affects score regularly`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
-        assertEquals(0, game.score())
+        game.assertState(score = 0, streak = 0)
+
         game.guess(true)
-        assertEquals(1, game.score())
+        game.assertState(score = 1, streak = 1)
+
         game.guess(false)
-        assertEquals(1, game.score())
+        game.assertState(score = 1, streak = 0)
+
         game.guess(true)
-        assertEquals(2, game.score())
+        game.assertState(score = 2, streak = 1)
     }
 
     @Test
     fun `correct guesses in a row affects score in a geometric progression`() {
         val game = HighLowGame(createFakeSameSuitOrderedDeck())
 
-        assertEquals(0, game.score())
+        game.assertState(score = 0, streak = 0)
+
         game.guess(true)
-        assertEquals(1, game.score())
+        game.assertState(score = 1, streak = 1)
+
         game.guess(true)
-        assertEquals(3, game.score())
+        game.assertState(score = 3, streak = 2)
+
         game.guess(true)
-        assertEquals(6, game.score())
+        game.assertState(score = 6, streak = 3)
+
         game.guess(true)
-        assertEquals(11, game.score())
+        game.assertState(score = 11, streak = 4)
     }
 
     @Test
@@ -138,4 +147,9 @@ class HighLowGameTest {
         FrenchPlayingCard(FrenchRank.FOUR, FrenchSuit.DIAMONDS),
         FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
     )
+
+    private fun HighLowGame.assertState(score: Int, streak: Int) {
+        assertEquals("Score is incorrect", score, score())
+        assertEquals("Streak is incorrect", streak, streak())
+    }
 }
