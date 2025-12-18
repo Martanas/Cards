@@ -30,6 +30,8 @@ data class FrenchPlayingCard(
 enum class FrenchRank : Rank {
     ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
 
+    override val value: Int = this.ordinal
+
     override fun compareTo(other: Rank): Int {
         require(other is FrenchRank)
         return when {
@@ -37,6 +39,12 @@ enum class FrenchRank : Rank {
             this.ordinal > other.ordinal -> 1
             else -> 0
         }
+    }
+
+    object Factory : Rank.Factory {
+        override fun lowest(): Rank = ONE
+
+        override fun highest(): Rank = ACE
     }
 }
 

@@ -55,6 +55,22 @@ class FrenchPlayingCardTest {
         assertTrue(first < second)
     }
 
+    @Test
+    fun `lowest rank is One`() {
+        val expected = FrenchRank.ONE
+        val actual = FrenchRank.Factory.lowest()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `highest rank is Ace`() {
+        val expected = FrenchRank.ACE
+        val actual = FrenchRank.Factory.highest()
+
+        assertEquals(expected, actual)
+    }
+
     private fun createStandardFrenchDeck(): List<FrenchPlayingCard> {
         val expected = listOf(
             FrenchPlayingCard(FrenchRank.ONE, FrenchSuit.CLUBS),

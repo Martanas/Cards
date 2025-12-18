@@ -5,6 +5,14 @@ interface PlayingCard : Comparable<PlayingCard> {
     val suit: Suit
 }
 
-interface Rank : Comparable<Rank>
+interface Rank : Comparable<Rank> {
+    val value: Int
+
+    interface Factory {
+        fun lowest(): Rank
+
+        fun highest(): Rank
+    }
+}
 
 interface Suit : Comparable<Suit>
