@@ -16,29 +16,45 @@ class AutomatedHighLowGame(
     val gamePlayers = _gamePlayers.asStateFlow()
 
     suspend fun start() {
-        _gamePlayers.value.forEach { gamePlayer ->
-            correctAnswerStreak = gamePlayer.streak
-            play(gamePlayer)
+        while (!hasEnded()) {
+            _gamePlayers.value.forEach { gamePlayer ->
+                if (!hasEnded()) {
+                    play(gamePlayer)
+                }
+            }
         }
     }
 
     private suspend fun play(gamePlayer: GamePlayer) {
-        val playerGuess = guess(gamePlayer.player.guess(deck[0]))
-        val updatedPlayer = gamePlayer.copy(
-            streak = correctAnswerStreak,
-            score = score()
-        )
-        _gamePlayers.update { gamePlayers ->
-            gamePlayers.map { gamePlayer ->
-                if (gamePlayer.player.id == updatedPlayer.player.id) {
-                    updatedPlayer
-                } else {
-                    gamePlayer
-                }
-            }
-        }
-        if (!playerGuess.hasEnded()) {
+        val guessResult = guess(gamePlayer.player.guess(deck[0]))
+        val updatedPlayer = updatePlayerState(gamePlayer)
+        if (!guessResult.hasGameEnded() && guessResult.correct) {
             play(updatedPlayer)
+        }
+    }
+
+    private fun updatePlayerState(gamePlayer: GamePlayer): GamePlayer {
+        val updatedPlayer = gamePlayer.copy(
+            streak = streak(),
+            score = scoreForPlayer(gamePlayer)
+        )
+        _gamePlayers.update { gamePlayers -> gamePlayers.updatePlayer(updatedPlayer) }
+        return updatedPlayer
+    }
+
+    private fun scoreForPlayer(gamePlayer: GamePlayer): Int {
+        val totalGameScore = score()
+        val otherPlayersScore = _gamePlayers.value
+            .filter { it.player.id != gamePlayer.player.id }
+            .sumOf { it.score }
+        return totalGameScore - otherPlayersScore
+    }
+
+    private fun List<GamePlayer>.updatePlayer(gamePlayerToUpdate: GamePlayer) = map { gamePlayer ->
+        if (gamePlayer.player.id == gamePlayerToUpdate.player.id) {
+            gamePlayerToUpdate
+        } else {
+            gamePlayer
         }
     }
 

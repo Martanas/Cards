@@ -5,11 +5,17 @@ import kotlin.math.pow
 open class HighLowGame(deck: List<PlayingCard>) {
     protected val deck = deck.toMutableList()
     private var score = 0
-    open var correctAnswerStreak = 0
+    private var correctAnswerStreak = 0
+    private var lastResult: GuessResult? = null
 
     fun score() = score
-    fun guess(higher: Boolean): GameResult {
-        if (deck.size < 2) {
+
+    fun streak() = correctAnswerStreak
+
+    fun hasEnded(): Boolean = lastResult?.hasGameEnded() == true
+
+    fun guess(higher: Boolean): GuessResult {
+        if (hasEnded()) {
             throw GameEndedException()
         }
         val currentCard = deck[0]
@@ -21,10 +27,12 @@ open class HighLowGame(deck: List<PlayingCard>) {
             nextCard < currentCard
         }
         updateScore(guessedCorrectly)
-        return when {
-            deck.size < 2 -> GameResult.Ended(guessedCorrectly)
-            else -> GameResult.Ongoing(guessedCorrectly)
+        val result = when {
+            deck.size < 2 -> GuessResult.GameEnded(guessedCorrectly)
+            else -> GuessResult.GameContinues(guessedCorrectly)
         }
+        lastResult = result
+        return result
     }
 
     private fun updateScore(guessedCorrectly: Boolean) {
@@ -32,7 +40,6 @@ open class HighLowGame(deck: List<PlayingCard>) {
         if (guessedCorrectly) {
             val streakBonus = 2.0.pow(correctAnswerStreak - 1).toInt()
                 .takeIf { correctAnswerStreak > 0 } ?: 0
-            println(streakBonus)
             score += regularScoreIncrement + streakBonus
             correctAnswerStreak += 1
         } else {
@@ -42,12 +49,12 @@ open class HighLowGame(deck: List<PlayingCard>) {
 
     class GameEndedException : RuntimeException()
 
-    sealed interface GameResult {
-        val result: Boolean
+    sealed interface GuessResult {
+        val correct: Boolean
 
-        data class Ongoing(override val result: Boolean) : GameResult
-        data class Ended(override val result: Boolean) : GameResult
+        data class GameContinues(override val correct: Boolean) : GuessResult
+        data class GameEnded(override val correct: Boolean) : GuessResult
 
-        fun hasEnded() = this is Ended
+        fun hasGameEnded() = this is GameEnded
     }
 }
