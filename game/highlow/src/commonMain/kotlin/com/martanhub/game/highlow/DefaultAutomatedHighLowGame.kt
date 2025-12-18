@@ -1,5 +1,6 @@
-package com.martanhub.card
+package com.martanhub.game.highlow
 
+import com.martanhub.card.PlayingCard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -8,10 +9,10 @@ import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.incrementAndFetch
 
 @OptIn(ExperimentalAtomicApi::class)
-class AutomatedHighLowGame(
+internal class DefaultAutomatedHighLowGame(
     players: List<Player>,
     deck: List<PlayingCard>
-) : HighLowGame(deck) {
+) : HighLowGame(deck), AutomatedHighLowGame {
     private val nextPlayerId = AtomicLong(0)
     private val _gamePlayers = MutableStateFlow(
         players.map { player ->
@@ -23,9 +24,9 @@ class AutomatedHighLowGame(
             )
         }
     )
-    val gamePlayers = _gamePlayers.asStateFlow()
+    override val gamePlayers = _gamePlayers.asStateFlow()
 
-    suspend fun start() {
+    override suspend fun start() {
         while (!hasEnded()) {
             _gamePlayers.value.forEach { gamePlayer ->
                 if (!hasEnded()) {
@@ -67,25 +68,4 @@ class AutomatedHighLowGame(
             gamePlayer
         }
     }
-
-    class GamePlayer(
-        val id: Long,
-        val player: Player,
-        val score: Int,
-        val streak: Int
-    ) {
-        suspend fun guess(playingCard: PlayingCard) = player.guess(playingCard)
-
-        fun copy(streak: Int, score: Int) = GamePlayer(
-            id = id,
-            player = player,
-            score = score,
-            streak = streak
-        )
-    }
-}
-
-interface Player {
-    val name: String
-    suspend fun guess(card: PlayingCard): Boolean
 }

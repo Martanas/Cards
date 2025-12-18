@@ -1,6 +1,9 @@
-package com.martanhub.card
+package com.martanhub.game.highlow
 
-import com.martanhub.card.HighLowGame.GameEndedException
+import com.martanhub.card.FrenchPlayingCard
+import com.martanhub.card.FrenchRank
+import com.martanhub.card.FrenchSuit
+import com.martanhub.game.highlow.HighLowGame.GameEndedException
 import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertFailsWith

@@ -1,8 +1,9 @@
-package com.martanhub.card
+package com.martanhub.game.highlow
 
+import com.martanhub.card.PlayingCard
 import kotlin.math.pow
 
-open class HighLowGame(deck: List<PlayingCard>) {
+internal open class HighLowGame(deck: List<PlayingCard>) {
     protected val deck = deck.toMutableList()
     private var score = 0
     private var correctAnswerStreak = 0
