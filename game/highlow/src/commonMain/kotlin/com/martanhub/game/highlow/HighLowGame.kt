@@ -1,10 +1,10 @@
 package com.martanhub.game.highlow
 
-import com.martanhub.card.PlayingCard
+import com.martanhub.card.Deck
 import kotlin.math.pow
 
-internal open class HighLowGame(deck: List<PlayingCard>) {
-    protected val deck = deck.toMutableList()
+internal open class HighLowGame(deck: Deck) {
+    protected val cards = deck.cards.toMutableList()
     private var score = 0
     private var correctAnswerStreak = 0
     private var lastResult: GuessResult? = null
@@ -19,9 +19,9 @@ internal open class HighLowGame(deck: List<PlayingCard>) {
         if (hasEnded()) {
             throw GameEndedException()
         }
-        val currentCard = deck[0]
-        val nextCard = deck[1]
-        deck.removeAt(0)
+        val currentCard = cards[0]
+        val nextCard = cards[1]
+        cards.removeAt(0)
         val guessedCorrectly = if (higher) {
             nextCard > currentCard
         } else {
@@ -29,7 +29,7 @@ internal open class HighLowGame(deck: List<PlayingCard>) {
         }
         updateScore(guessedCorrectly)
         val result = when {
-            deck.size < 2 -> GuessResult.GameEnded(guessedCorrectly)
+            cards.size < 2 -> GuessResult.GameEnded(guessedCorrectly)
             else -> GuessResult.GameContinues(guessedCorrectly)
         }
         lastResult = result

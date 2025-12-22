@@ -1,8 +1,9 @@
 package com.martanhub.game.highlow
 
-import com.martanhub.card.FrenchPlayingCard
+import com.martanhub.card.FrenchCardDeck
 import com.martanhub.card.FrenchSuit
 import com.martanhub.card.PlayingCard
+import com.martanhub.game.highlow.TestDeck.Companion.toTestDeck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
@@ -97,7 +98,9 @@ class DefaultAutomatedHighLowGameTest {
     }
 
     private fun createFakeSameSuitUnOrderedDeck(take: Int = Int.MAX_VALUE) =
-        FrenchPlayingCard.createStandardDeck()
+        FrenchCardDeck.create()
+            .cards
             .filter { card -> card.suit === FrenchSuit.DIAMONDS }
             .take(take)
+            .toTestDeck()
 }

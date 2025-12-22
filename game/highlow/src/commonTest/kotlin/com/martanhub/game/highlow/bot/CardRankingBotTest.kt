@@ -12,8 +12,8 @@ class CardRankingBotTest {
     private val bot = CardRankingBot(FrenchRank.Factory)
 
     @Test
-    fun `given one, guesses higher`() = runTest {
-        assertTrue(bot.guess(FrenchPlayingCard(FrenchRank.ONE, FrenchSuit.DIAMONDS)))
+    fun `given two, guesses higher`() = runTest {
+        assertTrue(bot.guess(FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS)))
     }
 
     @Test

@@ -1,9 +1,11 @@
 package com.martanhub.game.highlow
 
+import com.martanhub.card.FrenchCardDeck
 import com.martanhub.card.FrenchPlayingCard
 import com.martanhub.card.FrenchRank
 import com.martanhub.card.FrenchSuit
 import com.martanhub.game.highlow.HighLowGame.GameEndedException
+import com.martanhub.game.highlow.TestDeck.Companion.toTestDeck
 import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -38,7 +40,7 @@ class HighLowGameTest {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-        )
+        ).toTestDeck()
         val game = HighLowGame(deck)
 
         assertFalse(game.guess(true).correct)
@@ -49,7 +51,7 @@ class HighLowGameTest {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-        )
+        ).toTestDeck()
         val game = HighLowGame(deck)
 
         assertFalse(game.guess(false).correct)
@@ -60,7 +62,7 @@ class HighLowGameTest {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-        )
+        ).toTestDeck()
         val game = HighLowGame(deck)
 
         game.guess(true)
@@ -142,14 +144,16 @@ class HighLowGameTest {
     }
 
     private fun createFakeSameSuitOrderedDeck() =
-        FrenchPlayingCard.createStandardDeck()
+        FrenchCardDeck.create()
+            .cards
             .filter { card -> card.suit === FrenchSuit.DIAMONDS }
+            .toTestDeck()
 
     private fun createFakeSameSuitUnOrderedDeck() = listOf(
-        FrenchPlayingCard(FrenchRank.ONE, FrenchSuit.DIAMONDS),
+        FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
         FrenchPlayingCard(FrenchRank.FOUR, FrenchSuit.DIAMONDS),
         FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-    )
+    ).toTestDeck()
 
     private fun HighLowGame.assertState(score: Int, streak: Int) {
         assertEquals("Score is incorrect", score, score())

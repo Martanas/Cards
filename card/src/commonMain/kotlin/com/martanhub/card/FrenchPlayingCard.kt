@@ -16,19 +16,10 @@ data class FrenchPlayingCard(
             }
         }
     }
-
-    companion object {
-        fun createStandardDeck(): List<PlayingCard> =
-            FrenchRank.entries.map { rank ->
-                FrenchSuit.entries.map { suit ->
-                    FrenchPlayingCard(rank, suit)
-                }
-            }.flatten()
-    }
 }
 
 enum class FrenchRank : Rank {
-    ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
+    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
 
     override val value: Int = this.ordinal
 
@@ -42,7 +33,7 @@ enum class FrenchRank : Rank {
     }
 
     object Factory : Rank.Factory {
-        override fun lowest(): Rank = ONE
+        override fun lowest(): Rank = TWO
 
         override fun highest(): Rank = ACE
     }
