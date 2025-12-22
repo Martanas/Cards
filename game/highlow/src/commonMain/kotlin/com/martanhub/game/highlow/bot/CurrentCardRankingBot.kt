@@ -4,10 +4,10 @@ import com.martanhub.card.PlayingCard
 import com.martanhub.card.Rank
 import com.martanhub.game.highlow.Player
 
-class CardRankingBot(
+class CurrentCardRankingBot(
     private val rankFactory: Rank.Factory
 ) : Player {
-    override val name = "Bot: Card ranking"
+    override val name = "Bot: Current card ranking"
 
     override suspend fun guess(card: PlayingCard): Boolean {
         val value = card.rank.value

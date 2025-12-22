@@ -8,8 +8,8 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class CardRankingBotTest {
-    private val bot = CardRankingBot(FrenchRank.Factory)
+class CurrentCardRankingBotTest {
+    private val bot = CurrentCardRankingBot(FrenchRank.Factory)
 
     @Test
     fun `given two, guesses higher`() = runTest {
