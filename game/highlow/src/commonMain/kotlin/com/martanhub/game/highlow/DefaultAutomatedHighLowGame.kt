@@ -1,6 +1,6 @@
 package com.martanhub.game.highlow
 
-import com.martanhub.card.Deck
+import com.martanhub.card.ShuffledDeck
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -11,7 +11,7 @@ import kotlin.concurrent.atomics.incrementAndFetch
 @OptIn(ExperimentalAtomicApi::class)
 internal class DefaultAutomatedHighLowGame(
     players: List<Player>,
-    deck: Deck
+    deck: ShuffledDeck
 ) : HighLowGame(deck), AutomatedHighLowGame {
     private val nextPlayerId = AtomicLong(0)
     private val _gamePlayers = MutableStateFlow(

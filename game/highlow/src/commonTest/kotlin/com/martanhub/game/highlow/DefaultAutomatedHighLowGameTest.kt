@@ -3,7 +3,7 @@ package com.martanhub.game.highlow
 import com.martanhub.card.FrenchCardDeck
 import com.martanhub.card.FrenchSuit
 import com.martanhub.card.PlayingCard
-import com.martanhub.game.highlow.TestDeck.Companion.toTestDeck
+import com.martanhub.game.highlow.TestShuffledDeck.Companion.toTestShuffledDeck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
@@ -102,5 +102,5 @@ class DefaultAutomatedHighLowGameTest {
             .cards
             .filter { card -> card.suit === FrenchSuit.DIAMONDS }
             .take(take)
-            .toTestDeck()
+            .toTestShuffledDeck()
 }

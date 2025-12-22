@@ -5,7 +5,7 @@ import com.martanhub.card.FrenchPlayingCard
 import com.martanhub.card.FrenchRank
 import com.martanhub.card.FrenchSuit
 import com.martanhub.game.highlow.HighLowGame.GameEndedException
-import com.martanhub.game.highlow.TestDeck.Companion.toTestDeck
+import com.martanhub.game.highlow.TestShuffledDeck.Companion.toTestShuffledDeck
 import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -40,7 +40,7 @@ class HighLowGameTest {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-        ).toTestDeck()
+        ).toTestShuffledDeck()
         val game = HighLowGame(deck)
 
         assertFalse(game.guess(true).correct)
@@ -51,7 +51,7 @@ class HighLowGameTest {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-        ).toTestDeck()
+        ).toTestShuffledDeck()
         val game = HighLowGame(deck)
 
         assertFalse(game.guess(false).correct)
@@ -62,7 +62,7 @@ class HighLowGameTest {
         val deck = listOf(
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
             FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-        ).toTestDeck()
+        ).toTestShuffledDeck()
         val game = HighLowGame(deck)
 
         game.guess(true)
@@ -147,13 +147,13 @@ class HighLowGameTest {
         FrenchCardDeck.create()
             .cards
             .filter { card -> card.suit === FrenchSuit.DIAMONDS }
-            .toTestDeck()
+            .toTestShuffledDeck()
 
     private fun createFakeSameSuitUnOrderedDeck() = listOf(
         FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
         FrenchPlayingCard(FrenchRank.FOUR, FrenchSuit.DIAMONDS),
         FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS),
-    ).toTestDeck()
+    ).toTestShuffledDeck()
 
     private fun HighLowGame.assertState(score: Int, streak: Int) {
         assertEquals("Score is incorrect", score, score())

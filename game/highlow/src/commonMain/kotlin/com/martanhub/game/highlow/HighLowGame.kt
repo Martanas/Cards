@@ -1,9 +1,9 @@
 package com.martanhub.game.highlow
 
-import com.martanhub.card.Deck
+import com.martanhub.card.ShuffledDeck
 import kotlin.math.pow
 
-internal open class HighLowGame(deck: Deck) {
+internal open class HighLowGame(deck: ShuffledDeck) {
     protected val cards = deck.cards.toMutableList()
     private var score = 0
     private var correctAnswerStreak = 0
