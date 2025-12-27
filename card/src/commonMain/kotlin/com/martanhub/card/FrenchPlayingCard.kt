@@ -41,13 +41,4 @@ enum class FrenchRank : Rank {
 
 enum class FrenchSuit : Suit {
     CLUBS, DIAMONDS, HEARTS, SPADES;
-
-    override fun compareTo(other: Suit): Int {
-        require(other is FrenchSuit)
-        return when {
-            this.ordinal < other.ordinal -> -1
-            this.ordinal > other.ordinal -> 1
-            else -> 0
-        }
-    }
 }

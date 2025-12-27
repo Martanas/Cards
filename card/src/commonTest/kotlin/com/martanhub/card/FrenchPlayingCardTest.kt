@@ -25,7 +25,6 @@ class FrenchPlayingCardTest {
         val second = FrenchPlayingCard(FrenchRank.KING, FrenchSuit.SPADES)
 
         assertNotEquals(first, second)
-        assertTrue(first < second)
     }
 
     @Test

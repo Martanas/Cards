@@ -15,4 +15,4 @@ interface Rank : Comparable<Rank> {
     }
 }
 
-interface Suit : Comparable<Suit>
+interface Suit
