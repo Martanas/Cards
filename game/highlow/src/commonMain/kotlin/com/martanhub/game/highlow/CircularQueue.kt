@@ -1,24 +1,24 @@
 package com.martanhub.game.highlow
 
-class CircularQueue(private val capacity: Int) {
-    private val elements = mutableListOf<Int>()
+class CircularQueue<T>(private val capacity: Int) {
+    private val elements = mutableListOf<T>()
 
     init {
         require(capacity > 0)
     }
 
-    fun peek(): Int? = elements.lastOrNull()
+    fun peek(): T? = elements.lastOrNull()
 
-    fun element(): Int = elements.last()
+    fun element(): T = elements.last()
 
-    fun remove(): Int = elements.removeLast()
+    fun remove(): T = elements.removeLast()
 
-    fun add(element: Int) {
+    fun add(element: T) {
         if (elements.size == capacity) {
             elements.removeFirst()
         }
         elements.add(element)
     }
 
-    fun getAll(): List<Int> = elements
+    fun getAll(): List<T> = elements
 }
