@@ -13,51 +13,83 @@ class LastCardsAvgRankingBotTest {
 
     @Test
     fun `given two, guesses higher`() = runTest {
-        assertTrue(bot.guess(FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS)))
+        assertTrue(bot.guess(playingCard(FrenchRank.TWO)))
     }
 
     @Test
     fun `given seven, guesses higher`() = runTest {
-        assertTrue(bot.guess(FrenchPlayingCard(FrenchRank.SEVEN, FrenchSuit.DIAMONDS)))
+        assertTrue(bot.guess(playingCard(FrenchRank.SEVEN)))
     }
 
     @Test
-    fun `given eight, guesses lower`() = runTest {
-        assertFalse(bot.guess(FrenchPlayingCard(FrenchRank.EIGHT, FrenchSuit.DIAMONDS)))
+    fun `given seven after ace, two and five guesses higher`() = runTest {
+        bot.guess(playingCard(FrenchRank.ACE))
+        bot.guess(playingCard(FrenchRank.TWO))
+        bot.guess(playingCard(FrenchRank.FIVE))
+
+        assertTrue(bot.guess(playingCard(FrenchRank.SEVEN)))
     }
 
     @Test
-    fun `given ace, guesses lower`() = runTest {
-        assertFalse(bot.guess(FrenchPlayingCard(FrenchRank.ACE, FrenchSuit.DIAMONDS)))
+    fun `given seven after ace, five and five guesses higher`() = runTest {
+        bot.guess(playingCard(FrenchRank.ACE))
+        bot.guess(playingCard(FrenchRank.FIVE))
+        bot.guess(playingCard(FrenchRank.FIVE))
+
+        assertTrue(bot.guess(playingCard(FrenchRank.SEVEN)))
     }
 
     @Test
-    fun `given ace, king and seven guesses lower`() = runTest {
-        bot.guess(FrenchPlayingCard(FrenchRank.ACE, FrenchSuit.DIAMONDS))
-        bot.guess(FrenchPlayingCard(FrenchRank.KING, FrenchSuit.DIAMONDS))
-
-        assertFalse(bot.guess(FrenchPlayingCard(FrenchRank.SEVEN, FrenchSuit.DIAMONDS)))
+    fun `given eight guesses lower`() = runTest {
+        assertFalse(bot.guess(playingCard(FrenchRank.EIGHT)))
     }
 
     @Test
-    fun `given two, six and eight guesses higher`() = runTest {
-        bot.guess(FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS))
-        bot.guess(FrenchPlayingCard(FrenchRank.SIX, FrenchSuit.DIAMONDS))
+    fun `given eight after jack, two and six, guesses higher`() = runTest {
+        bot.guess(playingCard(FrenchRank.JACK))
+        bot.guess(playingCard(FrenchRank.TWO))
+        bot.guess(playingCard(FrenchRank.SIX))
 
-        assertTrue(bot.guess(FrenchPlayingCard(FrenchRank.EIGHT, FrenchSuit.DIAMONDS)))
+        assertTrue(bot.guess(playingCard(FrenchRank.EIGHT)))
     }
 
     @Test
-    fun `given ace and six guesses lower`() = runTest {
-        bot.guess(FrenchPlayingCard(FrenchRank.ACE, FrenchSuit.DIAMONDS))
-
-        assertFalse(bot.guess(FrenchPlayingCard(FrenchRank.SIX, FrenchSuit.DIAMONDS)))
+    fun `given ace guesses lower`() = runTest {
+        assertFalse(bot.guess(playingCard(FrenchRank.ACE)))
     }
 
     @Test
-    fun `given two and king guesses lower`() = runTest {
-        bot.guess(FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS))
+    fun `given ace after king and seven guesses lower`() = runTest {
+        bot.guess(playingCard(FrenchRank.ACE))
+        bot.guess(playingCard(FrenchRank.KING))
 
-        assertFalse(bot.guess(FrenchPlayingCard(FrenchRank.KING, FrenchSuit.DIAMONDS)))
+        assertFalse(bot.guess(playingCard(FrenchRank.SEVEN)))
     }
+
+    @Test
+    fun `given eight after two and six eight guesses higher`() = runTest {
+        bot.guess(playingCard(FrenchRank.TWO))
+        bot.guess(playingCard(FrenchRank.SIX))
+
+        assertTrue(bot.guess(playingCard(FrenchRank.EIGHT)))
+    }
+
+    @Test
+    fun `given six after ace guesses lower`() = runTest {
+        bot.guess(playingCard(FrenchRank.ACE))
+
+        assertFalse(bot.guess(playingCard(FrenchRank.SIX)))
+    }
+
+    @Test
+    fun `given king after two guesses lower`() = runTest {
+        bot.guess(playingCard(FrenchRank.TWO))
+
+        assertFalse(bot.guess(playingCard(FrenchRank.KING)))
+    }
+
+    private fun playingCard(rank: FrenchRank) = FrenchPlayingCard(
+        rank = rank,
+        suit = FrenchSuit.DIAMONDS
+    )
 }

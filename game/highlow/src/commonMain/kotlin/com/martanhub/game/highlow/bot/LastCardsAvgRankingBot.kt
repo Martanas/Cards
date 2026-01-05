@@ -26,7 +26,16 @@ class LastCardsAvgRankingBot(
         cardsQueue.add(card)
         val highestValue = rankFactory.highest().value
         val lowestValue = rankFactory.lowest().value
-        return highestValue - avg > avg - lowestValue
+        return if (highestValue - avg > avg - lowestValue) {
+            true
+        } else if (highestValue - avg < avg - lowestValue) {
+            false
+        } else {
+            val value = card.rank.value
+            val highestValue = rankFactory.highest().value
+            val lowestValue = rankFactory.lowest().value
+            highestValue - value > value - lowestValue
+        }
     }
 
     override fun spectate(card: PlayingCard) {
