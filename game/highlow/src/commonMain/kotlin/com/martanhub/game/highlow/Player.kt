@@ -5,4 +5,6 @@ import com.martanhub.card.PlayingCard
 interface Player {
     val name: String
     suspend fun guess(card: PlayingCard): Boolean
+
+    fun spectate(card: PlayingCard)
 }

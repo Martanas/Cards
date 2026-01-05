@@ -55,9 +55,9 @@ class LastCardsAvgRankingBotTest {
     }
 
     @Test
-    fun `given two and king guesses higher`() = runTest {
+    fun `given two and king guesses lower`() = runTest {
         bot.guess(FrenchPlayingCard(FrenchRank.TWO, FrenchSuit.DIAMONDS))
 
-        assertTrue(bot.guess(FrenchPlayingCard(FrenchRank.KING, FrenchSuit.DIAMONDS)))
+        assertFalse(bot.guess(FrenchPlayingCard(FrenchRank.KING, FrenchSuit.DIAMONDS)))
     }
 }

@@ -75,6 +75,43 @@ class DefaultAutomatedHighLowGameTest {
         game.assertPlayerState(firstPlayer, score = 2, streak = 1)
     }
 
+    @Test
+    fun `non-guessing player can spectate the card being played`() = runTest {
+        val firstPlayer = TestPlayer(name = "Player #112")
+        val secondPlayer = TestPlayer(name = "Player #911")
+        val game = DefaultAutomatedHighLowGame(
+            players = listOf(firstPlayer, secondPlayer),
+            deck = createFakeSameSuitUnOrderedDeck(take = 7)
+        )
+        launch(Dispatchers.Unconfined) {
+            game.start()
+        }
+
+        firstPlayer.verifySpectatedCount(0)
+        secondPlayer.verifySpectatedCount(1)
+        firstPlayer.guessHigher()
+
+        firstPlayer.verifySpectatedCount(0)
+        secondPlayer.verifySpectatedCount(2)
+        firstPlayer.guessLower()
+
+        firstPlayer.verifySpectatedCount(1)
+        secondPlayer.verifySpectatedCount(2)
+        secondPlayer.guessHigher()
+
+        firstPlayer.verifySpectatedCount(2)
+        secondPlayer.verifySpectatedCount(2)
+        secondPlayer.guessHigher()
+
+        firstPlayer.verifySpectatedCount(3)
+        secondPlayer.verifySpectatedCount(2)
+        secondPlayer.guessLower()
+
+        firstPlayer.verifySpectatedCount(3)
+        secondPlayer.verifySpectatedCount(3)
+        firstPlayer.guessHigher()
+    }
+
     private fun DefaultAutomatedHighLowGame.assertPlayerState(
         player: Player,
         score: Int,
@@ -88,6 +125,7 @@ class DefaultAutomatedHighLowGameTest {
     private class TestPlayer(
         override val name: String,
     ) : Player {
+        private var spectatedCount = 0
         private val guessStream = MutableSharedFlow<Boolean>()
 
         override suspend fun guess(card: PlayingCard): Boolean = guessStream.first()
@@ -95,6 +133,18 @@ class DefaultAutomatedHighLowGameTest {
         suspend fun guessHigher() = guessStream.emit(true)
 
         suspend fun guessLower() = guessStream.emit(false)
+
+        override fun spectate(card: PlayingCard) {
+            spectatedCount++
+        }
+
+        fun verifySpectatedCount(count: Int) {
+            assertEquals(
+                message = "Player spectated incorrect amount of cards",
+                expected = count,
+                actual = spectatedCount
+            )
+        }
     }
 
     private fun createFakeSameSuitUnOrderedDeck(take: Int = Int.MAX_VALUE) =

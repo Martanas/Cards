@@ -37,6 +37,7 @@ internal class DefaultAutomatedHighLowGame(
     }
 
     private suspend fun play(gamePlayer: GamePlayer) {
+        spectateForAllPlayersExcept(gamePlayer)
         val guessResult = guess(gamePlayer.guess(cards[0]))
         val updatedPlayer = updatePlayerState(gamePlayer)
         if (!guessResult.hasGameEnded() && guessResult.correct) {
@@ -59,6 +60,14 @@ internal class DefaultAutomatedHighLowGame(
             .filter { it.id != gamePlayer.id }
             .sumOf { it.score }
         return totalGameScore - otherPlayersScore
+    }
+
+    private fun spectateForAllPlayersExcept(gamePlayer: GamePlayer) {
+        _gamePlayers.value
+            .filter { it.id != gamePlayer.id }
+            .onEach { player ->
+                player.player.spectate(cards[0])
+            }
     }
 
     private fun List<GamePlayer>.updatePlayer(gamePlayerToUpdate: GamePlayer) = map { gamePlayer ->

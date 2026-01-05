@@ -10,4 +10,8 @@ class RandomGuessingBot(
     override val name = "Bot: Random Guesser"
 
     override suspend fun guess(card: PlayingCard): Boolean = random()
+
+    override fun spectate(card: PlayingCard) {
+        // Do nothing
+    }
 }

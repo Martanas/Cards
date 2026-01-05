@@ -15,4 +15,8 @@ class CurrentCardRankingBot(
         val lowestValue = rankFactory.lowest().value
         return highestValue - value > value - lowestValue
     }
+
+    override fun spectate(card: PlayingCard) {
+        // Do nothing
+    }
 }
