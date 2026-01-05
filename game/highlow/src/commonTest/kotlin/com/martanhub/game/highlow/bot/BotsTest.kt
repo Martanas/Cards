@@ -1,11 +1,14 @@
 package com.martanhub.game.highlow.bot
 
 import com.martanhub.card.FrenchCardDeck
+import com.martanhub.card.FrenchPlayingCard
 import com.martanhub.card.FrenchRank
+import com.martanhub.card.FrenchSuit
 import com.martanhub.card.ShuffleMachine
+import com.martanhub.card.ShuffledDeck
 import com.martanhub.game.highlow.DefaultAutomatedHighLowGame
-import com.martanhub.game.highlow.GamePlayer
 import com.martanhub.game.highlow.Player
+import com.martanhub.game.highlow.TestShuffledDeck
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -14,26 +17,26 @@ class BotsTest {
     private val shuffleMachine = ShuffleMachine()
 
     @Test
-    fun `random guessing bot averages less than current card ranking bot`() = runTest {
+    fun `current card ranking bot wins more often than random guessing bot`() = runTest {
         val result = playTheGame(
             players = {
                 listOf(RandomGuessingBot(), CurrentCardRankingBot(FrenchRank.Factory))
             },
-            numOfTimes = 100
+            numOfTimes = 1000
         )
 
-        val randomGuessingBotAvg =
-            result.first { (player, _) -> player is RandomGuessingBot }.second
-        val currentCardRankingAvg =
-            result.first { (player, _) -> player is CurrentCardRankingBot }.second
+        val randomGuessingBotWinCount =
+            result.first { (player, _) -> player is RandomGuessingBot }.wins
+        val currentCardRankingWinCount =
+            result.first { (player, _) -> player is CurrentCardRankingBot }.wins
         assertTrue(
-            message = "Current card ranking bot lost to random guessing bot",
-            actual = randomGuessingBotAvg < currentCardRankingAvg
+            message = "Current card ranking bot won less times than Random guessing bot",
+            actual = currentCardRankingWinCount > randomGuessingBotWinCount
         )
     }
 
     @Test
-    fun `last avg ranking bot averages less than current card ranking bot averages`() = runTest {
+    fun `current card ranking bot wins more often than last cards comparing bot`() = runTest {
         val result = playTheGame(
             players = {
                 listOf(
@@ -41,40 +44,73 @@ class BotsTest {
                     CurrentCardRankingBot(FrenchRank.Factory)
                 )
             },
+            numOfTimes = 1000
+        )
+
+        val lastCardsRankingBotWinCount =
+            result.first { (player, _) -> player is LastCardsAvgRankingBot }.wins
+        val currentCardRankingWinCount =
+            result.first { (player, _) -> player is CurrentCardRankingBot }.wins
+        assertTrue(
+            message = "Current card ranking bot won less times than last cards comparing bot",
+            actual = currentCardRankingWinCount > lastCardsRankingBotWinCount
+        )
+    }
+
+    @Test
+    fun `remaining card ranking bot wins more often than current card ranking bot`() = runTest {
+        val result = playTheGame(
+            players = { deck ->
+                listOf(
+                    RemainingCardsRankingBot(deck),
+                    CurrentCardRankingBot(FrenchRank.Factory)
+                )
+            },
             numOfTimes = 100
         )
 
-        val lastCardsRankingBotAvg =
-            result.first { (player, _) -> player is LastCardsAvgRankingBot }.second
-        val currentCardRankingAvg =
-            result.first { (player, _) -> player is CurrentCardRankingBot }.second
+        val remainingCardsRankingBotWins =
+            result.first { (player, _) -> player is RemainingCardsRankingBot }.wins
+        val currentCardRankingWins =
+            result.first { (player, _) -> player is CurrentCardRankingBot }.wins
         assertTrue(
-            message = "Last avg card ranking bot current card ranking bot",
-            actual = lastCardsRankingBotAvg < currentCardRankingAvg
+            message = "Remaining cards ranking bot won less times than current card ranking bot",
+            actual = remainingCardsRankingBotWins > currentCardRankingWins
         )
     }
 
     private suspend fun playTheGame(
-        players: () -> List<Player>,
+        players: (ShuffledDeck) -> List<Player>,
         numOfTimes: Int
-    ): List<Pair<Player, Int>> {
-        var playersWithScores = players().map { player -> player to 0 }
+    ): List<PlayerGameResult> {
+        var playersWithWins = players(
+            TestShuffledDeck(
+                listOf(
+                    FrenchPlayingCard(
+                        FrenchRank.ACE,
+                        FrenchSuit.DIAMONDS
+                    )
+                )
+            )
+        ).map { player -> PlayerGameResult(player, 0) }
+        val unshuffledDeck = FrenchCardDeck.create()
         repeat(numOfTimes) {
-            val shuffledDeck = shuffleMachine.shuffle(FrenchCardDeck.create())
+            val shuffledDeck = shuffleMachine.shuffle(unshuffledDeck)
             val highLowGame = DefaultAutomatedHighLowGame(
-                players = players(),
+                players = players(shuffledDeck),
                 deck = shuffledDeck
             )
             highLowGame.start()
-            playersWithScores = playersWithScores.map { (player, score) ->
-                player to score + highLowGame.findPlayer(player).score
+            val winner = highLowGame.gamePlayers.value.maxBy { it.score }
+            playersWithWins = playersWithWins.map { result ->
+                result.copy(wins = if (winner.player.name == result.player.name) result.wins + 1 else result.wins)
             }
         }
-
-        return playersWithScores.map { (player, score) -> player to score.div(numOfTimes) }
+        return playersWithWins
     }
 
-    private fun DefaultAutomatedHighLowGame.findPlayer(
-        player: Player
-    ): GamePlayer = gamePlayers.value.first { it.player.name == player.name }
+    private data class PlayerGameResult(
+        val player: Player,
+        val wins: Int
+    )
 }
