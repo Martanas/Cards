@@ -66,7 +66,7 @@ class BotsTest {
                     CurrentCardRankingBot(FrenchRank.Factory)
                 )
             },
-            numOfTimes = 100
+            numOfTimes = 500
         )
 
         val remainingCardsRankingBotWins =
