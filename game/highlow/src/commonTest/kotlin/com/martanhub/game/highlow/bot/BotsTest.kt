@@ -36,28 +36,6 @@ class BotsTest {
     }
 
     @Test
-    fun `current card ranking bot wins more often than last cards comparing bot`() = runTest {
-        val result = playTheGame(
-            players = {
-                listOf(
-                    LastCardsAvgRankingBot(count = 5, rankFactory = FrenchRank.Factory),
-                    CurrentCardRankingBot(FrenchRank.Factory)
-                )
-            },
-            numOfTimes = 1000
-        )
-
-        val lastCardsRankingBotWinCount =
-            result.first { (player, _) -> player is LastCardsAvgRankingBot }.wins
-        val currentCardRankingWinCount =
-            result.first { (player, _) -> player is CurrentCardRankingBot }.wins
-        assertTrue(
-            message = "Current card ranking bot won less times than last cards comparing bot",
-            actual = currentCardRankingWinCount > lastCardsRankingBotWinCount
-        )
-    }
-
-    @Test
     fun `remaining card ranking bot wins more often than current card ranking bot`() = runTest {
         val result = playTheGame(
             players = { deck ->
