@@ -1,8 +1,8 @@
-package com.martanhub.game.highlow.bot
+package com.martanhub.game.highlow.engine.bot
 
-import com.martanhub.card.FrenchPlayingCard
-import com.martanhub.card.FrenchRank
-import com.martanhub.card.FrenchSuit
+import com.martanhub.card.core.FrenchPlayingCard
+import com.martanhub.card.core.FrenchRank
+import com.martanhub.card.core.FrenchSuit
 import kotlinx.coroutines.test.runTest
 import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.Test

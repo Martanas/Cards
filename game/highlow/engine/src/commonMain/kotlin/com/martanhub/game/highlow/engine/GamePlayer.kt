@@ -1,6 +1,6 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
-import com.martanhub.card.PlayingCard
+import com.martanhub.card.core.PlayingCard
 
 class GamePlayer(
     val id: Long,

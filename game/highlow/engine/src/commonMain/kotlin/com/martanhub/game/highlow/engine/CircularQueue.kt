@@ -1,4 +1,4 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
 class CircularQueue<T>(private val capacity: Int) {
     private val elements = mutableListOf<T>()

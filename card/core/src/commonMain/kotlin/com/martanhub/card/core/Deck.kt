@@ -1,4 +1,4 @@
-package com.martanhub.card
+package com.martanhub.card.core
 
 interface Deck {
     val cards: List<PlayingCard>

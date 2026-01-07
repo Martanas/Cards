@@ -1,14 +1,14 @@
-package com.martanhub.game.highlow.bot
+package com.martanhub.game.highlow.engine.bot
 
-import com.martanhub.card.FrenchCardDeck
-import com.martanhub.card.FrenchPlayingCard
-import com.martanhub.card.FrenchRank
-import com.martanhub.card.FrenchSuit
-import com.martanhub.card.ShuffleMachine
-import com.martanhub.card.ShuffledDeck
-import com.martanhub.game.highlow.DefaultAutomatedHighLowGame
-import com.martanhub.game.highlow.Player
-import com.martanhub.game.highlow.TestShuffledDeck
+import com.martanhub.card.core.FrenchCardDeck
+import com.martanhub.card.core.FrenchPlayingCard
+import com.martanhub.card.core.FrenchRank
+import com.martanhub.card.core.FrenchSuit
+import com.martanhub.card.core.ShuffleMachine
+import com.martanhub.card.core.ShuffledDeck
+import com.martanhub.game.highlow.engine.DefaultAutomatedHighLowGame
+import com.martanhub.game.highlow.engine.Player
+import com.martanhub.game.highlow.engine.TestShuffledDeck
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertTrue

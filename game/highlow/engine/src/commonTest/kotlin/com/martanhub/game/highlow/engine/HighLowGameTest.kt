@@ -1,11 +1,11 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
-import com.martanhub.card.FrenchCardDeck
-import com.martanhub.card.FrenchPlayingCard
-import com.martanhub.card.FrenchRank
-import com.martanhub.card.FrenchSuit
-import com.martanhub.game.highlow.HighLowGame.GameEndedException
-import com.martanhub.game.highlow.TestShuffledDeck.Companion.toTestShuffledDeck
+import com.martanhub.card.core.FrenchCardDeck
+import com.martanhub.card.core.FrenchPlayingCard
+import com.martanhub.card.core.FrenchRank
+import com.martanhub.card.core.FrenchSuit
+import com.martanhub.game.highlow.engine.HighLowGame.GameEndedException
+import com.martanhub.game.highlow.engine.TestShuffledDeck.Companion.toTestShuffledDeck
 import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertFailsWith

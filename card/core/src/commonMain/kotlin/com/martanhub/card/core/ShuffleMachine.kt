@@ -1,4 +1,4 @@
-package com.martanhub.card
+package com.martanhub.card.core
 
 class ShuffleMachine {
     fun shuffle(deck: Deck): ShuffledDeck {

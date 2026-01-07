@@ -1,9 +1,9 @@
-package com.martanhub.game.highlow.bot
+package com.martanhub.game.highlow.engine.bot
 
-import com.martanhub.card.PlayingCard
-import com.martanhub.card.ShuffledDeck
-import com.martanhub.game.highlow.CircularQueue
-import com.martanhub.game.highlow.Player
+import com.martanhub.card.core.PlayingCard
+import com.martanhub.card.core.ShuffledDeck
+import com.martanhub.game.highlow.engine.CircularQueue
+import com.martanhub.game.highlow.engine.Player
 
 class RemainingCardsRankingBot(
     private val deck: ShuffledDeck

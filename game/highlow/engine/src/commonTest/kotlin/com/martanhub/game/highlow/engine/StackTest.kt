@@ -1,6 +1,6 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
-import com.martanhub.game.highlow.Stack.StackOverflowException
+import com.martanhub.game.highlow.engine.Stack.StackOverflowException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

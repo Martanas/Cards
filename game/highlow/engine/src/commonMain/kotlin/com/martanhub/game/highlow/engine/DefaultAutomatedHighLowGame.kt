@@ -1,6 +1,6 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
-import com.martanhub.card.ShuffledDeck
+import com.martanhub.card.core.ShuffledDeck
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

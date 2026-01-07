@@ -1,8 +1,8 @@
-package com.martanhub.game.highlow.bot
+package com.martanhub.game.highlow.engine.bot
 
-import com.martanhub.card.PlayingCard
-import com.martanhub.card.Rank
-import com.martanhub.game.highlow.Player
+import com.martanhub.card.core.PlayingCard
+import com.martanhub.card.core.Rank
+import com.martanhub.game.highlow.engine.Player
 
 class CurrentCardRankingBot(
     private val rankFactory: Rank.Factory

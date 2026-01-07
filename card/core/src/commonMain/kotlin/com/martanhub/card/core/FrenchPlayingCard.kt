@@ -1,4 +1,4 @@
-package com.martanhub.card
+package com.martanhub.card.core
 
 data class FrenchPlayingCard(
     override val rank: FrenchRank,

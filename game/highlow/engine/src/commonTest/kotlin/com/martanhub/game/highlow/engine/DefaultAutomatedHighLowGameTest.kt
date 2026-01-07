@@ -1,9 +1,9 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
-import com.martanhub.card.FrenchCardDeck
-import com.martanhub.card.FrenchSuit
-import com.martanhub.card.PlayingCard
-import com.martanhub.game.highlow.TestShuffledDeck.Companion.toTestShuffledDeck
+import com.martanhub.card.core.FrenchCardDeck
+import com.martanhub.card.core.FrenchSuit
+import com.martanhub.card.core.PlayingCard
+import com.martanhub.game.highlow.engine.TestShuffledDeck.Companion.toTestShuffledDeck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first

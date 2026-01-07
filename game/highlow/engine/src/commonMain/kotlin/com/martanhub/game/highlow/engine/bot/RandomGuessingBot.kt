@@ -1,7 +1,7 @@
-package com.martanhub.game.highlow.bot
+package com.martanhub.game.highlow.engine.bot
 
-import com.martanhub.card.PlayingCard
-import com.martanhub.game.highlow.Player
+import com.martanhub.card.core.PlayingCard
+import com.martanhub.game.highlow.engine.Player
 import kotlin.random.Random
 
 class RandomGuessingBot(

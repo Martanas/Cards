@@ -1,4 +1,4 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
 import kotlinx.coroutines.flow.StateFlow
 

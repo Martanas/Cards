@@ -1,4 +1,4 @@
-package com.martanhub.card
+package com.martanhub.card.core
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,6 +1,6 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
-import com.martanhub.card.ShuffledDeck
+import com.martanhub.card.core.ShuffledDeck
 import kotlin.math.pow
 
 internal open class HighLowGame(deck: ShuffledDeck) {

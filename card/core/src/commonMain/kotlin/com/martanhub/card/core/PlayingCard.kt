@@ -1,4 +1,4 @@
-package com.martanhub.card
+package com.martanhub.card.core
 
 interface PlayingCard : Comparable<PlayingCard> {
     val rank: Rank

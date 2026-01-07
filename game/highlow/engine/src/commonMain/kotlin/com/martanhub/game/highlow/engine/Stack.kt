@@ -1,4 +1,4 @@
-package com.martanhub.game.highlow
+package com.martanhub.game.highlow.engine
 
 class Stack<T>(private val capacity: Int = 0) {
     private var size = 0
