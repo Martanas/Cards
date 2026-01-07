@@ -10,7 +10,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":card"))
+            implementation(project(":card:core"))
             implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {

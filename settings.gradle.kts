@@ -29,5 +29,5 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
-include(":card")
+include(":card:core")
 include(":game:highlow:engine")
