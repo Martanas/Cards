@@ -15,6 +15,7 @@ kotlin {
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
         namespace = "com.martanhub.card.ui"
+        androidResources.enable = true
     }
 
     sourceSets {
@@ -23,6 +24,7 @@ kotlin {
         }
 
         commonMain.dependencies {
+            implementation(project(":card:core"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
